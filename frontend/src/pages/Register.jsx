@@ -8,6 +8,7 @@ const Register = () => {
         password: ''
     });
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -16,11 +17,20 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError('');
+
         try {
             await API.post('/register', formData);
             navigate('/login');
         } catch (err) {
-            setError(err.response?.data?.error || 'Registration failed');
+            if (!err.response) {
+                setError('Network Error: Cannot connect to server.');
+            } else {
+                setError(err.response?.data?.error || 'Registration failed');
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -52,7 +62,9 @@ const Register = () => {
                             required
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary">Register</button>
+                    <button type="submit" className="btn btn-primary" disabled={loading}>
+                        {loading ? 'Registering...' : 'Register'}
+                    </button>
                 </form>
                 <p className="auth-link">
                     Already have an account? <Link to="/login">Login here</Link>

@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 const Login = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -13,13 +14,23 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError('');
+
         try {
             const res = await API.post('/login', formData);
             localStorage.setItem('token', res.data.token);
-            localStorage.setItem('email', res.data.email); // Store email instead of username
+            localStorage.setItem('email', res.data.email);
             navigate('/');
         } catch (err) {
-            setError(err.response?.data?.error || 'Login failed');
+            console.error(err);
+            if (!err.response) {
+                setError('Network Error: Cannot connect to server. Please check your internet connection or if the backend is waking up.');
+            } else {
+                setError(err.response?.data?.error || 'Login failed');
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -53,7 +64,9 @@ const Login = () => {
                             required
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary">Login</button>
+                    <button type="submit" className="btn btn-primary" disabled={loading}>
+                        {loading ? 'Logging in...' : 'Login'}
+                    </button>
                 </form>
 
                 <p className="auth-link">
