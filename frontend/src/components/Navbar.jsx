@@ -27,7 +27,9 @@ const Navbar = () => {
                         <button onClick={handleLogout} className="btn-logout">Logout</button>
                     </>
                 ) : (
-                    !isAuthPage && (
+                    isAuthPage ? (
+                        <span className="navbar-tagline">AI Powered Diagnosis</span>
+                    ) : (
                         <>
                             <Link to="/login" className="navbar-item">Login</Link>
                             <Link to="/register" className="navbar-item">Register</Link>
