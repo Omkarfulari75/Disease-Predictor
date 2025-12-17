@@ -1,7 +1,8 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('username') || localStorage.getItem('email');
 
@@ -11,6 +12,8 @@ const Navbar = () => {
         localStorage.removeItem('username');
         navigate('/login');
     };
+
+    const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
     return (
         <nav className="navbar">
@@ -24,10 +27,12 @@ const Navbar = () => {
                         <button onClick={handleLogout} className="btn-logout">Logout</button>
                     </>
                 ) : (
-                    <>
-                        <Link to="/login" className="navbar-item">Login</Link>
-                        <Link to="/register" className="navbar-item">Register</Link>
-                    </>
+                    !isAuthPage && (
+                        <>
+                            <Link to="/login" className="navbar-item">Login</Link>
+                            <Link to="/register" className="navbar-item">Register</Link>
+                        </>
+                    )
                 )}
             </div>
         </nav>
