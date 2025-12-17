@@ -64,6 +64,10 @@ def token_required(f):
     
     return decorated
 
+@app.route('/')
+def home():
+    return "Backend is running!", 200
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     return jsonify({"status": "healthy", "message": "Backend is running!"})
