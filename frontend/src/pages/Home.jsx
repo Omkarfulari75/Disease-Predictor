@@ -23,9 +23,9 @@ const Home = () => {
         }
     }, [navigate]);
 
-    const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [imagePrediction, setImagePrediction] = useState(null);
+    const [showReport, setShowReport] = useState(false);
 
     const [activeTab, setActiveTab] = useState(null);
 
@@ -204,8 +204,27 @@ const Home = () => {
                         <button type="submit" className="btn" style={{ marginTop: '1rem' }}>Predict Disease</button>
                     </form>
 
-                    {prediction && (
-                        <div className="prediction-report" style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#f9fafb' }}>
+                    {prediction && !showReport && (
+                        <div className="prediction-result" style={{ marginTop: '2rem', textAlign: 'center' }}>
+                            <h3 style={{ color: 'var(--primary)', fontSize: '1.5rem' }}>Result: {prediction}</h3>
+                            <button
+                                onClick={() => setShowReport(true)}
+                                className="btn"
+                                style={{ marginTop: '1rem', maxWidth: '300px' }}
+                            >
+                                Generate Detailed Report
+                            </button>
+                        </div>
+                    )}
+
+                    {showReport && prediction && (
+                        <div className="printable-area" style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#f9fafb' }}>
+                            <div className="no-print" style={{ marginBottom: '1rem' }}>
+                                <button onClick={() => setShowReport(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#666', textDecoration: 'underline' }}>
+                                    &larr; Back to Results
+                                </button>
+                            </div>
+
                             <h3 style={{ borderBottom: '2px solid var(--primary)', paddingBottom: '0.5rem', marginBottom: '1rem' }}>Prediction Report</h3>
                             <div style={{ display: 'grid', gap: '0.5rem' }}>
                                 <p><strong>Patient Name:</strong> {localStorage.getItem('username') || 'User'}</p>
@@ -221,8 +240,8 @@ const Home = () => {
                                     ))}
                                 </ul>
                             </div>
-                            <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem' }}>
-                                <button onClick={() => window.print()} className="btn" style={{ backgroundColor: '#6b7280' }}>Print Report</button>
+                            <div className="no-print" style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem' }}>
+                                <button onClick={() => window.print()} className="btn" style={{ backgroundColor: '#6b7280' }}>Print / Save PDF</button>
                             </div>
                         </div>
                     )}
@@ -262,8 +281,28 @@ const Home = () => {
                         </button>
                     </div>
 
-                    {imagePrediction && (
-                        <div className="prediction-report" style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid #10b981', borderRadius: '8px', backgroundColor: '#ecfdf5' }}>
+                    {imagePrediction && !showReport && (
+                        <div className="prediction-result" style={{ borderLeftColor: '#10b981', backgroundColor: '#ecfdf5', marginTop: '2rem', textAlign: 'center' }}>
+                            <h3 style={{ color: '#059669', fontSize: '1.5rem', marginBottom: '0.5rem' }}>Detected Infection: {imagePrediction}</h3>
+                            <p style={{ fontSize: '0.9rem', color: '#666' }}>Note: This is an AI estimation. Please consult a doctor.</p>
+                            <button
+                                onClick={() => setShowReport(true)}
+                                className="btn"
+                                style={{ marginTop: '1rem', maxWidth: '300px', backgroundColor: '#10b981' }}
+                            >
+                                Generate Detailed Report
+                            </button>
+                        </div>
+                    )}
+
+                    {showReport && imagePrediction && (
+                        <div className="printable-area" style={{ marginTop: '2rem', padding: '1.5rem', border: '1px solid #10b981', borderRadius: '8px', backgroundColor: '#ecfdf5' }}>
+                            <div className="no-print" style={{ marginBottom: '1rem' }}>
+                                <button onClick={() => setShowReport(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#666', textDecoration: 'underline' }}>
+                                    &larr; Back to Results
+                                </button>
+                            </div>
+
                             <h3 style={{ borderBottom: '2px solid #10b981', paddingBottom: '0.5rem', marginBottom: '1rem' }}>Photo Diagnosis Report</h3>
                             <div style={{ display: 'grid', gap: '0.5rem' }}>
                                 <p><strong>Patient Name:</strong> {localStorage.getItem('username') || 'User'}</p>
@@ -274,8 +313,8 @@ const Home = () => {
                                     Note: This analysis is based on the uploaded image. Results are for informational purposes mainly.
                                 </p>
                             </div>
-                            <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem' }}>
-                                <button onClick={() => window.print()} className="btn" style={{ backgroundColor: '#6b7280' }}>Print Report</button>
+                            <div className="no-print" style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem' }}>
+                                <button onClick={() => window.print()} className="btn" style={{ backgroundColor: '#6b7280' }}>Print / Save PDF</button>
                             </div>
                         </div>
                     )}
