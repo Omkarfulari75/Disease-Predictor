@@ -84,21 +84,15 @@ const Home = () => {
             </div>
 
             {/* Dashboard Cards Navigation */}
-            <div className="dashboard-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
+            <div className="dashboard-grid">
 
                 {/* Symptom Checker Card */}
                 <div
                     onClick={() => setActiveTab('symptoms')}
                     className={`feature-card ${activeTab === 'symptoms' ? 'active-card' : ''}`}
                     style={{
-                        padding: '2rem',
-                        borderRadius: '12px',
                         backgroundColor: activeTab === 'symptoms' ? 'var(--primary)' : 'white',
                         color: activeTab === 'symptoms' ? 'white' : '#333',
-                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        border: '2px solid transparent',
                         borderColor: activeTab === 'symptoms' ? 'var(--primary)' : 'transparent'
                     }}
                 >
@@ -114,14 +108,8 @@ const Home = () => {
                     onClick={() => setActiveTab('photo')}
                     className={`feature-card ${activeTab === 'photo' ? 'active-card' : ''}`}
                     style={{
-                        padding: '2rem',
-                        borderRadius: '12px',
                         backgroundColor: activeTab === 'photo' ? 'var(--primary)' : 'white',
                         color: activeTab === 'photo' ? 'white' : '#333',
-                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        border: '2px solid transparent',
                         borderColor: activeTab === 'photo' ? 'var(--primary)' : 'transparent'
                     }}
                 >
@@ -137,14 +125,8 @@ const Home = () => {
                     onClick={() => navigate('/history')}
                     className="feature-card"
                     style={{
-                        padding: '2rem',
-                        borderRadius: '12px',
                         backgroundColor: 'white',
                         color: '#333',
-                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        border: '2px solid transparent'
                     }}
                 >
                     <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>📋</div>
